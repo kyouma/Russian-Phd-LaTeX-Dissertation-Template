@@ -1,643 +1,526 @@
-\chapter{Оформление различных элементов}\label{ch:ch1}
+\chapter{Регуляризирующие методы повышения разрешения изображений мигающей флуоресцентной микроскопии}\label{ch:ch1}
 
-\section{Форматирование текста}\label{sec:ch1/sec1}
+Флуоресцентная микроскопия обладает рядом достоинств, среди которых высокая контрастность изображений и возможность маркировки разных структур разными красителями. Благодаря этому данный вид микроскопии получил широкое распространение. Однако разрешающая способность микроскопа ограничена дифракцией, а использование видимого света делает разрешающую способность изображений флуоресцентной микроскопии недостаточной для ряда современных задач. В связи с этим развиваются различные подходы решения данной проблемы.
 
-Мы можем сделать \textbf{жирный текст} и \textit{курсив}.
+Двумя основными направлениями методов повышения разрешающей способности микроскопов являются деконволюция и повышение разрешения изображений. Получение изображения с более высоким разрешением необходимо, если сам микроскоп не обеспечивает должного увеличения для различения мелких объектов. Если же микроскоп имеет сильное увеличение, то основным препятствием становится дифракция света, поэтому в таком случае задача деконволюции выходит на передний план.
 
-\section{Ссылки}\label{sec:ch1/sec2}
+Использование стохастически мигающих флуорофоров даёт дополнительную информацию для анализа изображения и позволяет выделять сигналы отдельных участков объекта или отдельных флуорофоров на фоне друг друга при наличии временной серии изображений. Такой подход не требует специального оборудования, поэтому в настоящее время получил широкое распространение и продолжает активно развиваться~\cite{мишин2019флуоресцентная}. В данной работе рассматриваются именно такие методы повышения качества изображений флуоресцентной микроскопии на основе анализа временной серии снимков образца, подсвеченного стохастически мигающим красителем. Пример последовательных кадров из рассматриваемых серий изображений представлен на Рис.~\ref{fig:blinking-samples}.
 
-Сошлёмся на библиографию.
-Одна ссылка: \cite[с.~54]{Sokolov}\cite[с.~36]{Gaidaenko}.
-Две ссылки: \cite{Sokolov,Gaidaenko}.
-Ссылка на собственные работы: \cite{vakbib1, confbib2}.
-Много ссылок: %\cite[с.~54]{Lermontov,Management,Borozda} % такой «фокус»
-%вызывает biblatex warning относительно опции sortcites, потому что неясно, к
-%какому источнику относится уточнение о страницах, а bibtex об этой проблеме
-%даже не предупреждает
-\cite{Lermontov, Management, Borozda, Marketing, Constitution, FamilyCode,
-    Gost.7.0.53, Razumovski, Lagkueva, Pokrovski, Methodology, Berestova,
-    Kriger}%
-\ifnumequal{\value{bibliosel}}{0}{% Примеры для bibtex8
-    \cite{Sirotko, Lukina, Encyclopedia, Nasirova}%
-}{% Примеры для biblatex через движок biber
-    \cite{Sirotko2, Lukina2, Encyclopedia2, Nasirova2}%
-}%
-.
-И~ещё немного ссылок:~\cite{Article,Book,Booklet,Conference,Inbook,Incollection,Manual,Mastersthesis,
-    Misc,Phdthesis,Proceedings,Techreport,Unpublished}
-% Следует обратить внимание, что пробел после запятой внутри \cite{}
-% обрабатывается ожидаемо, а пробел перед запятой, может вызывать проблемы при
-% обработке ссылок.
-\cite{medvedev2006jelektronnye, CEAT:CEAT581, doi:10.1080/01932691.2010.513279,
-    Gosele1999161,Li2007StressAnalysis, Shoji199895, test:eisner-sample,
-    test:eisner-sample-shorted, AB_patent_Pomerantz_1968, iofis_patent1960}%
-\ifnumequal{\value{bibliosel}}{0}{% Примеры для bibtex8
-}{% Примеры для biblatex через движок biber
-    \cite{patent2h, patent3h, patent2}%
-}%
-.
+\begin{figure}[ht]
+	\centerfloat{
+		\hfill
+		\includegraphics[width=0.18\textwidth]{blinking-1-6a.png}
+		\hfill
+		\includegraphics[width=0.18\textwidth]{blinking-1-6b.png}
+		\hfill
+		\includegraphics[width=0.18\textwidth]{blinking-1-6c.png}
+		\hfill
+		\includegraphics[width=0.18\textwidth]{blinking-1-6d.png}
+		\hfill
+		\includegraphics[width=0.18\textwidth]{blinking-1-6e.png}
+		\hfill
+	}
+	\caption{Пример серии изображений, полученных с использованием мигающих флуорофоров}
+	\label{fig:blinking-samples}
+\end{figure}
 
-\ifnumequal{\value{bibliosel}}{0}{% Примеры для bibtex8
-Попытка реализовать несколько ссылок на конкретные страницы
-для \texttt{bibtex} реализации библиографии:
-[\citenum{Sokolov}, с.~54; \citenum{Gaidaenko}, с.~36].
-}{% Примеры для biblatex через движок biber
-Несколько источников (мультицитата):
-% Тут специально написано по-разному тире, для демонстрации, что
-% применение специальных тире в настоящий момент в biblatex приводит к непоказу
-% "с.".
-\cites[vii--x, 5, 7]{Sokolov}[v"--~x, 25, 526]{Gaidaenko}[vii--x, 5, 7]{Techreport},
-работает только в \texttt{biblatex} реализации библиографии.
-}%
+В последние годы для этой области микроскопии было разработано множество алгоритмов, основанных на различных подходах, для решения задачи построения резкого изображения с высоким разрешением на основе серии снимков. В частности, алгоритм PALM~\cite{betzig2006imaging} использует редко мигающие красители, чтобы находить центры отдельных пятен в каждом кадре и строить карту молекул флуорофора. Ограничением является требование низкой частоты мигания молекул и длинных серий снимков для визуализации всех участков изучаемого объекта.
 
-Ссылки на собственные работы:~\cite{vakbib1, confbib1}.
+Метод SOFI~\cite{dertinger2009fast, dertinger2010achieving} использует корреляцию и полуинварианты~\cite{75086} пикселей для уменьшения размытия и увеличения разрешения изображения. Однако он чувствителен к шуму, поэтому требует длинных последовательностей данных, а также этапа деконволюции.
 
-Сошлёмся на приложения: Приложение~\cref{app:A}, Приложение~\cref{app:B2}.
+В то время как полуинварианты, используемые в SOFI, оценивают только часть ковариационной матрицы серии изображений, SPARCOM~\cite{Solomon:18} полностью использует эту матрицу и использует предположение о разреженности в пространстве корреляций сигналов флуорофоров для достижения более высокого пространственного разрешения и уменьшения требований к длине последовательности изображений.
 
-Сошлёмся на формулу: формула~\cref{eq:equation1}.
+Метод MUSICAL~\cite{agarwal2016multiple} вдохновлён алгоритмом обработки радиолокационных сигналов MUSIC~\cite{schmidt1986multiple}. Он использует собственные вектора серии изображений для построения карты флуорофоров с высоким разрешением.
 
-Сошлёмся на изображение: рисунок~\cref{fig:knuth}.
+Другой подход предложен авторами 3B~\cite{cox2012bayesian}. Их метод байесовского анализа мигания и выгорания моделирует изменение состояний флуорофоров и вычисляет расположение молекул. Однако его вычислительная сложность очень высока, и для практического использования этого алгоритма требуется кластерный компьютер.
 
-Стандартной практикой является добавление к ссылкам префикса, характеризующего тип элемента.
-Это не является строгим требованием, но~позволяет лучше ориентироваться в документах большого размера.
-Например, для ссылок на~рисунки используется префикс \textit{fig},
-для ссылки на~таблицу "--- \textit{tab}.
+Для этой задачи также разработаны методы, основанные на глубоком обучении. Например, свёрточная нейтральная сеть Deep"~STORM~\cite{Nehme:18} основана на архитектуре кодировщик"=декодировщик и напрямую создаёт изображения с высоким разрешением, тогда как метод DLBI~\cite{10.1093/bioinformatics/bty241} сочетает в себе как глубокое обучение, так и байесовский вывод, который уточняет результат нейронной сети. 
 
-В таблице \cref{tab:tab_pref} приложения~\cref{app:B4} приведён список рекомендуемых
-к использованию стандартных префиксов.
+Однако проблема всё ещё остаётся открытой, и требуется более высокая производительность алгоритмов улучшения изображения. Поэтому в этой главе будет представлен регуляризирующий метод реконструкции изображения повышенного разрешения и сравнение его эффективности с некоторыми другими современными методами.
 
-В некоторых ситуациях возникает необходимость отойти от требований ГОСТ по оформлению ссылок на
-литературу.
-В таком случае можно воспользоваться дополнительными опциями пакета \verb+biblatex+.
+\section{Модель искажения изображения} \label{sec:image-blur-model}
 
-Например, в ссылке на книгу~\cite{sobenin_kdv} использование опции \verb+maxnames=4+ позволяет
-вывести имена всех четырёх авторов.
-По ГОСТ имена последних трёх авторов опускаются.
+В данной работе рассматривается модель искажения изображения следующего вида:
 
-Кроме того, часто возникают проблемы с транслитерованными инициалами. Некоторые буквы русского
-алфавита по правилам транслитерации записываются двумя буквами латинского алфавита (ю-yu, ё-yo и
-т.д.).
-Такие инициалы \verb+biblatex+ будет сокращать до одной буквы, что неверно.
-Поправить его работу можно использовав опцию \verb+giveninits=false+.
-Пример использования этой опции можно видеть в ссылке~\cite{initials}.
+\begin{equation*}
+	I^\prime \left( x, y \right)=\left(K\ast I+N\right)\left(x,y\right)=\int_{-\infty}^{\infty}\int_{-\infty}^{\infty}{K\left(s,t\right)\ I\left(x-s,y-t\right)\ ds\ dt}+N(x,y),
+\end{equation*}
 
-\section{Формулы}\label{sec:ch1/sec3}
+где $I$ "--- исходное резкое изображение, $I^\prime$ "--- искажённое изображение, $K$ "--- ядро размытия, а $N$ "--- аддитивный шум с нормальным распределением, что в дискретном случае принимает вид:
 
-Благодаря пакету \textit{icomma}, \LaTeX~одинаково хорошо воспринимает
-в~качестве десятичного разделителя и запятую (\(3,1415\)), и точку (\(3.1415\)).
+\begin{equation*}
+	I^\prime\left(i,j\right)=\left(K\ast I+N\right)\left(i,j\right)=\sum_{k=-\infty}^{\infty} \sum_{p=-\infty}^{\infty}{K\left(k,p\right)\ I\left(i-k,j-p\right)}+N(i,j).
+\end{equation*}
 
-\subsection{Ненумерованные одиночные формулы}\label{subsec:ch1/sec3/sub1}
+\todo{А шум?}
 
-Вот так может выглядеть формула, которую необходимо вставить в~строку
-по~тексту: \(x \approx \sin x\) при \(x \to 0\).
+\section{Модель ядра размытия} \label{sec:microscope-psf}
 
-А вот так выглядит ненумерованная отдельностоящая формула c подстрочными
-и надстрочными индексами:
-\[
-    (x_1+x_2)^2 = x_1^2 + 2 x_1 x_2 + x_2^2
-\]
+В лазерном сканирующем микроскопе ядро размытия (point spread function, PSF) определяется произведением ядра размытия лазерного луча подсветки образца и ядра размытия объектива. Каждое из этих ядер задаётся формулами:
 
-Формула с неопределенным интегралом:
-\[
-    \int f(\alpha+x)=\sum\beta
-\]
-
-При использовании дробей формулы могут получаться очень высокие:
-\[
-    \frac{1}{\sqrt{2}+
-        \displaystyle\frac{1}{\sqrt{2}+
-            \displaystyle\frac{1}{\sqrt{2}+\cdots}}}
-\]
-
-В формулах можно использовать греческие буквы:
-%Все \original... команды заранее, ради этого примера, определены в Dissertation\userstyles.tex
-\[
-    \alpha\beta\gamma\delta\originalepsilon\epsilon\zeta\eta\theta%
-    \vartheta\iota\kappa\varkappa\lambda\mu\nu\xi\pi\varpi\rho\varrho%
-    \sigma\varsigma\tau\upsilon\originalphi\phi\chi\psi\omega\Gamma\Delta%
-    \Theta\Lambda\Xi\Pi\Sigma\Upsilon\Phi\Psi\Omega
-\]
-\[%https://texfaq.org/FAQ-boldgreek
-    \boldsymbol{\alpha\beta\gamma\delta\originalepsilon\epsilon\zeta\eta%
-        \theta\vartheta\iota\kappa\varkappa\lambda\mu\nu\xi\pi\varpi\rho%
-        \varrho\sigma\varsigma\tau\upsilon\originalphi\phi\chi\psi\omega\Gamma%
-        \Delta\Theta\Lambda\Xi\Pi\Sigma\Upsilon\Phi\Psi\Omega}
-\]
-
-Для добавления формул можно использовать пары \verb+$+\dots\verb+$+ и \verb+$$+\dots\verb+$$+,
-но~они считаются устаревшими.
-Лучше использовать их функциональные аналоги \verb+\(+\dots\verb+\)+ и \verb+\[+\dots\verb+\]+.
-
-\subsection{Ненумерованные многострочные формулы}\label{subsec:ch1/sec3/sub2}
-
-Вот так можно написать две формулы, не нумеруя их, чтобы знаки <<равно>> были
-строго друг под другом:
-\begin{align}
-    f_W & =  \min \left( 1, \max \left( 0, \frac{W_{soil} / W_{max}}{W_{crit}} \right)  \right), \nonumber \\
-    f_T & =  \min \left( 1, \max \left( 0, \frac{T_s / T_{melt}}{T_{crit}} \right)  \right), \nonumber
-\end{align}
-
-Выровнять систему ещё и по переменной \( x \) можно, используя окружение
-\verb|alignedat| из пакета \verb|amsmath|. Вот так:
-\[
-|x| = \left\{
-\begin{alignedat}{2}
-    &&x, \quad &\text{eсли } x\geqslant 0 \\
-    &-&x, \quad & \text{eсли } x<0
-\end{alignedat}
-\right.
-\]
-Здесь первый амперсанд (в исходном \LaTeX\ описании формулы) означает
-выравнивание по~левому краю, второй "--- по~\( x \), а~третий "--- по~слову
-<<если>>. Команда \verb|\quad| делает большой горизонтальный пробел.
-
-Ещё вариант:
-\[
-    |x|=
-    \begin{cases}
-        \phantom{-}x, \text{если } x \geqslant 0 \\
-        -x, \text{если } x<0
-    \end{cases}
-\]
-
-Кроме того, для  нумерованных формул \verb|alignedat| делает вертикальное
-выравнивание номера формулы по центру формулы. Например, выравнивание
-компонент вектора:
-\begin{equation}
-    \label{eq:2p3}
-    \begin{alignedat}{2}
-        {\mathbf{N}}_{o1n}^{(j)} = \,{\sin} \phi\,n\!\left(n+1\right)
-        {\sin}\theta\,
-        \pi_n\!\left({\cos} \theta\right)
-        \frac{
-        z_n^{(j)}\!\left( \rho \right)
-        }{\rho}\,
-        &{\boldsymbol{\hat{\mathrm e}}}_{r}\,+   \\
-        +\,
-        {\sin} \phi\,
-        \tau_n\!\left({\cos} \theta\right)
-        \frac{
-        \left[\rho z_n^{(j)}\!\left( \rho \right)\right]^{\prime}
-        }{\rho}\,
-        &{\boldsymbol{\hat{\mathrm e}}}_{\theta}\,+   \\
-        +\,
-        {\cos} \phi\,
-        \pi_n\!\left({\cos} \theta\right)
-        \frac{
-        \left[\rho z_n^{(j)}\!\left( \rho \right)\right]^{\prime}
-        }{\rho}\,
-        &{\boldsymbol{\hat{\mathrm e}}}_{\phi}\:.
-    \end{alignedat}
-\end{equation}
-
-Ещё об отступах. Иногда для лучшей <<читаемости>> формул полезно
-немного исправить стандартные интервалы \LaTeX\ с учётом логической
-структуры самой формулы. Например в формуле~\cref{eq:2p3} добавлен
-небольшой отступ \verb+\,+ между основными сомножителями, ниже
-результат применения всех вариантов отступа:
 \begin{align*}
-    \backslash!             & \quad f(x) = x^2\! +3x\! +2         \\
-    \mbox{по-умолчанию}     & \quad f(x) = x^2+3x+2               \\
-    \backslash,             & \quad f(x) = x^2\, +3x\, +2         \\
-    \backslash{:}           & \quad f(x) = x^2\: +3x\: +2         \\
-    \backslash;             & \quad f(x) = x^2\; +3x\; +2         \\
-    \backslash \mbox{space} & \quad f(x) = x^2\ +3x\ +2           \\
-    \backslash \mbox{quad}  & \quad f(x) = x^2\quad +3x\quad +2   \\
-    \backslash \mbox{qquad} & \quad f(x) = x^2\qquad +3x\qquad +2
+	&I\left(r\right) = I_0 \cdot \left(\frac{2\cdot J_1\left(v\right)}{v}\right)^2, \\
+	&v=\frac{2\cdot\pi\cdot N A\cdot\left|r-r_0\right|}{\lambda}, \\
+	&J_1(v)=\sum_{n=0}^{\infty}{\left(-1\right)^n\frac{x^{2n+1}}{2^{2n+1}n!\left(n+1\right)!}},
 \end{align*}
 
-Можно использовать разные математические алфавиты:
-\begin{align}
-    \mathcal{ABCDEFGHIJKLMNOPQRSTUVWXYZ} \nonumber  \\
-    \mathfrak{ABCDEFGHIJKLMNOPQRSTUVWXYZ} \nonumber \\
-    \mathbb{ABCDEFGHIJKLMNOPQRSTUVWXYZ} \nonumber
-\end{align}
+где $I_0$ "--- нормирующий множитель, $J_1$ "--- функция Бесселя первого рода первого порядка, $NA$ "--- числовая апертура фокусирующей линзы, $\lambda$ "--- длина волны лазера подсветки или флуоресцентного излучения, $r$ "--- точка в плоскости изображения, $r_0$ "--- центр ядра в плоскости изображения.
 
-Посмотрим на систему уравнений на примере аттрактора Лоренца:
+Характер отдельного ядра размытия $I\left(r\right)$ определён дифракцией света, а само такое ядро называется диском Эйри. Расстояние между ближайшими к центру этого ядра нулями называется диаметром диска Эйри (airy unit, AU) и равно $\frac{\mu\cdot \lambda}{\pi \cdot NA}$, где $\mu$ "--- наименьший положительный нуль функции Бесселя первого рода первого порядка.
 
-\[
-\left\{
-\begin{array}{rl}
-    \dot x = & \sigma (y-x)  \\
-    \dot y = & x (r - z) - y \\
-    \dot z = & xy - bz
-\end{array}
-\right.
-\]
+Итоговое ядро размытия получаемого микроскопом изображения имеет вид $PSF_{eff}\left(r\right)=PSF_{exc}\left(r,r_{0,exc}\right)\cdot PSF_{em}\left(r,r_{0,em}\right)$, где $r$ "--- точка на изображении, $r_{0,exc}$, $r_{0,em}$ "--- центры ядер размытия лазера подсветки и флуоресцентного излучения соответственно (см.~Рис.~\ref{fig:blinking-psf}).
 
-А для вёрстки матриц удобно использовать многоточия:
-\[
-    \left(
-        \begin{array}{ccc}
-            a_{11} & \ldots & a_{1n} \\
-            \vdots & \ddots & \vdots \\
-            a_{n1} & \ldots & a_{nn} \\
-        \end{array}
-    \right)
-\]
+\section{Описание данных}
 
-\subsection{Нумерованные формулы}\label{subsec:ch1/sec3/sub3}
+\subsection{Источники данных}
 
-А вот так пишется нумерованная формула:
-\begin{equation}
-    \label{eq:equation1}
-    e = \lim_{n \to \infty} \left( 1+\frac{1}{n} \right) ^n
-\end{equation}
+Искусственные данные были подготовлены с помощью инструмента для симуляции процесса получения серий снимков мигающей флуоресцентной микроскопии SOFI Simulation Tool~\cite{10.1371/journal.pone.0161602}, модифицированном для получения структуры в виде сходящихся отрезков.
 
-Нумерованных формул может быть несколько:
-\begin{equation}
-    \label{eq:equation2}
-    \lim_{n \to \infty} \sum_{k=1}^n \frac{1}{k^2} = \frac{\pi^2}{6}
-\end{equation}
+Экспериментальные данные были получены с помощью микроскопа Zeiss~LSM~880 с детектором Airyscan~\cite{weisshart2014basic}, состоящем из 32 сенсоров, и мигающего флуоресцентного красителя HMSiR~\cite{uno2014spontaneously}. Серия снимков представляла собой 32 синхронных серии с разных сенсоров микроскопа, которые были предварительно совмещены.
 
-Впоследствии на формулы~\cref{eq:equation1, eq:equation2} можно ссылаться.
+\subsection{Детектор Airyscan}
 
-Сделать так, чтобы номер формулы стоял напротив средней строки, можно,
-используя окружение \verb|multlined| (пакет \verb|mathtools|) вместо
-\verb|multline| внутри окружения \verb|equation|. Вот так:
-\begin{equation} % \tag{S} % tag - вписывает свой текст
-    \label{eq:equation3}
-    \begin{multlined}
-        1+ 2+3+4+5+6+7+\dots + \\
-        + 50+51+52+53+54+55+56+57 + \dots + \\
-        + 96+97+98+99+100=5050
-    \end{multlined}
-\end{equation}
+%В данной работе задача повышения качества снимков решается для лазерного сканирующего микроскопа Zeiss~LSM~880, на котором установлен объектив с шестидесятикратным увеличением и детектор Airyscan~\cite{weisshart2014basic}, состоящий из 32 сенсоров, изображения с которых совмещаются для предварительного повышения резкости итогового снимка. Для такой системы задача деконволюции становится крайне важной.
 
-Уравнения~\cref{eq:subeq_1,eq:subeq_2} демонстрируют возможности
-окружения \verb|\subequations|.
+Так как итоговое ядро размытия лазерного сканирующего микроскопа представляет собой произведение ядра размытия луча подсветки и ядра размытия излучения объекта (см.~п.~\ref{sec:microscope-psf}), то при смещении детектора излучённого света в сторону от оптической оси микроскопа результирующее ядро размытия будет меняться, становясь более узким в центральной части, но приобретая более весомый <<хвост>>, как показано на Рис.~\ref{fig:blinking-psf-displacement}. На этом принципе основана работа детектора Airyscan.
+
+\begin{figure}[ht]
+	\hfill
+	\centering
+	\begin{minipage}{0.45\textwidth}
+		\centering
+		\includegraphics[width=0.9\linewidth]{blinking-1-1.png}
+		\captionof{figure}{Нормированные профили ядер размытия лазера подсветки ($PSF_{exc}$), объектива ($PSF_{em}$) и микроскопа ($PSF_{eff}$)}
+		\label{fig:blinking-psf}
+	\end{minipage} \hfill
+	\begin{minipage}{0.45\textwidth}
+		\centering
+		\includegraphics[width=0.9\linewidth]{blinking-1-2.png}
+		\captionof{figure}{Изменение профиля ядра размытия при смещении детектора излучаемого образцов света от оптической оси}
+		\label{fig:blinking-psf-displacement}
+	\end{minipage}
+	\hfill
+\end{figure}
+
+Изображение получается синхронно 32 детекторами: одним центральным и расположенными вокруг него тремя кольцами детекторов (Рис.~\ref{fig:blinking-airyscan}). Суммарный размер детектора Airyscan равен 1.25 диаметра диска Эйри, а размер одного элемента равен $\frac{1.25\ \mathrm{AU}}{6}$. Затем изображения с детекторов смещаются в сторону оптической оси с тем, чтобы положения максимумов ядер размытия детекторов совпали. Этот процесс называется переназначением пикселей (pixel reassignment)~\cite{sheppard2013superresolution}. Величина смещения $v$ изображения с одного детектора к центру определяется по формулам:
+
 \begin{subequations}
-    \label{eq:subeq_1}
-    \begin{gather}
-        y = x^2 + 1 \label{eq:subeq_1-1} \\
-        y = 2 x^2 - x + 1 \label{eq:subeq_1-2}
-    \end{gather}
-\end{subequations}
-Ссылки на отдельные уравнения~\cref{eq:subeq_1-1,eq:subeq_1-2,eq:subeq_2-1}.
-\begin{subequations}
-    \label{eq:subeq_2}
-    \begin{align}
-        y & = x^3 + x^2 + x + 1 \label{eq:subeq_2-1} \\
-        y & = x^2
-    \end{align}
+	\begin{align}
+		&v=-\frac{1}{1+\beta}\cdot\ \frac{1.25\ \mathrm{AU}}{6}\cdot v_d,  \nonumber \\
+		&\beta=\frac{\lambda_{em}}{\lambda_{exc}},  \nonumber
+	\end{align}
 \end{subequations}
 
-\subsection{Форматирование чисел и размерностей величин}\label{sec:units}
+где $v_d$ "--- относительное смещение детектора $d$ от оптической оси в размерах детектора, $\lambda_{em}$ и $\lambda_{exc}$ "--- длины волн излучённого света и подсветки. После этого изображения суммируются, образуя изображение с более узким ядром размытия (Рис.~\ref{fig:blinking-psf-comparison}) и повышенным отношением уровня сигнала к шуму.
 
-Числа форматируются при помощи команды \verb|\num|:
-\num{5,3};
-\num{2,3e8};
-\num{12345,67890};
-\num{2,6 d4};
-\num{1+-2i};
-\num{.3e45};
-\num[exponent-base=2]{5 e64};
-\num[exponent-base=2,exponent-to-prefix]{5 e64};
-\num{1.654 x 2.34 x 3.430}
-\num{1 2 x 3 / 4}.
-Для написания последовательности чисел можно использовать команды \verb|\numlist| и \verb|\numrange|:
-\numlist{10;30;50;70}; \numrange{10}{30}.
-Значения углов можно форматировать при помощи команды \verb|\ang|:
-\ang{2.67};
-\ang{30,3};
-\ang{-1;;};
-\ang{;-2;};
-\ang{;;-3};
-\ang{300;10;1}.
+\begin{figure}[ht]
+	\centering
+	\hfill
+	\begin{minipage}{0.45\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{blinking-1-3.png}
+		\captionof{figure}{Схема детектора Airyscan. Сенсоры расположены в центрах правильных шестиугольников}
+		\label{fig:blinking-airyscan}
+	\end{minipage} \hfill
+	\begin{minipage}{0.45\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{blinking-1-4.png}
+		\captionof{figure}{Нормированные профили ядер размытия обычного широкопольного (синий), конфокального сканирующего (красный) микроскопов и микроскопа с детектором Airyscan (зелёный)}
+		\label{fig:blinking-psf-comparison}
+	\end{minipage}
+	\hfill
+\end{figure}
 
-Обратите внимание, что ГОСТ запрещает использование знака <<->> для обозначения отрицательных чисел
-за исключением формул, таблиц и~рисунков.
-Вместо него следует использовать слово <<минус>>.
+За счёт такого подхода достигается резкость конфокальных сканирующих микроскопов одновременно с высоким уровнем сигнала обычных широкопольных микроскопов, что позволяет делать длинные серии снимков с высокой частотой кадров. Примеры ядер размытия для центрального элемента и элементов каждого из колец Airyscan представлены на Рис.~\ref{fig:blinking-airyscan-psf-samples}.
 
-Размерности можно записывать при помощи команд \verb|\si| и \verb|\SI|:
-\si{\farad\squared\lumen\candela};
-\si{\joule\per\mole\per\kelvin};
-\si[per-mode = symbol-or-fraction]{\joule\per\mole\per\kelvin};
-\si{\metre\per\second\squared};
-\SI{0.10(5)}{\neper};
-\SI{1.2-3i e5}{\joule\per\mole\per\kelvin};
-\SIlist{1;2;3;4}{\tesla};
-\SIrange{50}{100}{\volt}.
-Список единиц измерений приведён в таблицах~\cref{tab:unit:base,
-    tab:unit:derived,tab:unit:accepted,tab:unit:physical,tab:unit:other}.
-Приставки единиц приведены в~таблице~\cref{tab:unit:prefix}.
+\begin{figure}[ht]
+	\centerfloat{
+		\hfill
+		\subcaptionbox[List-of-Figures entry]{Центр}{%
+			\includegraphics[width=0.2\textwidth]{blinking-1-5a.png}}
+		\hfill
+		\subcaptionbox{Внутреннее кольцо}{%
+			\includegraphics[width=0.2\textwidth]{blinking-1-5b.png}}
+		\hfill
+		\subcaptionbox{Среднее кольцо}{%
+			\includegraphics[width=0.2\textwidth]{blinking-1-5c.png}}
+		\hfill
+		\subcaptionbox{Внешнее кольцо}{%
+		\includegraphics[width=0.2\textwidth]{blinking-1-5d.png}}
+		\hfill
+	}
+	\caption{Нормированные по яркости ядра размытия для элементов из разных слоёв детектора Airyscan}
+	\label{fig:blinking-airyscan-psf-samples}
+\end{figure}
 
-С дополнительными опциями форматирования можно ознакомиться в~описании пакета \texttt{siunitx};
-изменить или добавить единицы измерений можно в~файле \texttt{siunitx.cfg}.
+\section{Рассматриваемые методы}
 
-\begin{table}
-    \centering
-    \captionsetup{justification=centering} % выравнивание подписи по-центру
-    \caption{Основные величины СИ}\label{tab:unit:base}
-    \begin{tabular}{llc}
-        \toprule
-        Название  & Команда                 & Символ         \\
-        \midrule
-        Ампер     & \verb|\ampere| & \si{\ampere}   \\
-        Кандела   & \verb|\candela| & \si{\candela}  \\
-        Кельвин   & \verb|\kelvin| & \si{\kelvin}   \\
-        Килограмм & \verb|\kilogram| & \si{\kilogram} \\
-        Метр      & \verb|\metre| & \si{\metre}    \\
-        Моль      & \verb|\mole| & \si{\mole}     \\
-        Секунда   & \verb|\second| & \si{\second}   \\
-        \bottomrule
-    \end{tabular}
-\end{table}
+В данной работе рассматривается ряд современных методов повышения разрешения и резкости флуоресцентных изображений, полученных с использованием мигающих красителей. Далее следует описание их базовых принципов.
 
-\begin{table}
-    \small
-    \centering
-    \begin{threeparttable}% выравнивание подписи по границам таблицы
-        \caption{Производные единицы СИ}\label{tab:unit:derived}
-        \begin{tabular}{llc|llc}
-            \toprule
-            Название       & Команда                 & Символ              & Название & Команда & Символ \\
-            \midrule
-            Беккерель      & \verb|\becquerel| & \si{\becquerel}     &
-            Ньютон         & \verb|\newton| & \si{\newton}                                      \\
-            Градус Цельсия & \verb|\degreeCelsius| & \si{\degreeCelsius} &
-            Ом             & \verb|\ohm| & \si{\ohm}                                         \\
-            Кулон          & \verb|\coulomb| & \si{\coulomb}       &
-            Паскаль        & \verb|\pascal| & \si{\pascal}                                      \\
-            Фарад          & \verb|\farad| & \si{\farad}         &
-            Радиан         & \verb|\radian| & \si{\radian}                                      \\
-            Грей           & \verb|\gray| & \si{\gray}          &
-            Сименс         & \verb|\siemens| & \si{\siemens}                                     \\
-            Герц           & \verb|\hertz| & \si{\hertz}         &
-            Зиверт         & \verb|\sievert| & \si{\sievert}                                     \\
-            Генри          & \verb|\henry| & \si{\henry}         &
-            Стерадиан      & \verb|\steradian| & \si{\steradian}                                   \\
-            Джоуль         & \verb|\joule| & \si{\joule}         &
-            Тесла          & \verb|\tesla| & \si{\tesla}                                       \\
-            Катал          & \verb|\katal| & \si{\katal}         &
-            Вольт          & \verb|\volt| & \si{\volt}                                        \\
-            Люмен          & \verb|\lumen| & \si{\lumen}         &
-            Ватт           & \verb|\watt| & \si{\watt}                                        \\
-            Люкс           & \verb|\lux| & \si{\lux}           &
-            Вебер          & \verb|\weber| & \si{\weber}                                       \\
-            \bottomrule
-        \end{tabular}
-    \end{threeparttable}
-\end{table}
+\subsection{Super"=resolution optical fluctuation imaging (SOFI)}
 
-\begin{table}
-    \centering
-    \begin{threeparttable}% выравнивание подписи по границам таблицы
-        \caption{Внесистемные единицы}\label{tab:unit:accepted}
+Данный метод основан на рассмотрении интенсивностей излучения молекул флуорофора как независимых случайных величин и использовании полуинвариантов~\cite{75086} для получения резкого изображения повышенного разрешения~\cite{dertinger2009fast,dertinger2010achieving}.
 
-        \begin{tabular}{llc}
-            \toprule
-            Название        & Команда                 & Символ          \\
-            \midrule
-            День            & \verb|\day| & \si{\day}       \\
-            Градус          & \verb|\degree| & \si{\degree}    \\
-            Гектар          & \verb|\hectare| & \si{\hectare}   \\
-            Час             & \verb|\hour| & \si{\hour}      \\
-            Литр            & \verb|\litre| & \si{\litre}     \\
-            Угловая минута  & \verb|\arcminute| & \si{\arcminute} \\
-            Угловая секунда & \verb|\arcsecond| & \si{\arcsecond} \\ %
-            Минута          & \verb|\minute| & \si{\minute}    \\
-            Тонна           & \verb|\tonne| & \si{\tonne}     \\
-            \bottomrule
-        \end{tabular}
-    \end{threeparttable}
-\end{table}
+В рамках этого подхода рассматриваются $N$ независимо мигающих флуорофоров, находящихся в позициях $\mathbf{r}_k$. Их яркости меняются со временем по закону $\varepsilon_k\cdot s_k(t)$, а итоговая интенсивность в позиции $r$ задаётся следующим образом:
 
-\begin{table}
-    \centering
-    \captionsetup{justification=centering}
-    \caption{Внесистемные единицы, получаемые из эксперимента}\label{tab:unit:physical}
-    \begin{tabular}{llc}
-        \toprule
-        Название                & Команда                 & Символ                 \\
-        \midrule
-        Астрономическая единица & \verb|\astronomicalunit| & \si{\astronomicalunit} \\
-        Атомная единица массы   & \verb|\atomicmassunit| & \si{\atomicmassunit}   \\
-        Боровский радиус        & \verb|\bohr| & \si{\bohr}             \\
-        Скорость света          & \verb|\clight| & \si{\clight}           \\
-        Дальтон                 & \verb|\dalton| & \si{\dalton}           \\
-        Масса электрона         & \verb|\electronmass| & \si{\electronmass}     \\
-        Электрон Вольт          & \verb|\electronvolt| & \si{\electronvolt}     \\
-        Элементарный заряд      & \verb|\elementarycharge| & \si{\elementarycharge} \\
-        Энергия Хартри          & \verb|\hartree| & \si{\hartree}          \\
-        Постоянная Планка       & \verb|\planckbar| & \si{\planckbar}        \\
-        \bottomrule
-    \end{tabular}
-\end{table}
-
-\begin{table}
-    \centering
-    \begin{threeparttable}% выравнивание подписи по границам таблицы
-        \caption{Другие внесистемные единицы}\label{tab:unit:other}
-        \begin{tabular}{llc}
-            \toprule
-            Название                  & Команда                 & Символ             \\
-            \midrule
-            Ангстрем                  & \verb|\angstrom| & \si{\angstrom}     \\
-            Бар                       & \verb|\bar| & \si{\bar}          \\
-            Барн                      & \verb|\barn| & \si{\barn}         \\
-            Бел                       & \verb|\bel| & \si{\bel}          \\
-            Децибел                   & \verb|\decibel| & \si{\decibel}      \\
-            Узел                      & \verb|\knot| & \si{\knot}         \\
-            Миллиметр ртутного столба & \verb|\mmHg| & \si{\mmHg}         \\
-            Морская миля              & \verb|\nauticalmile| & \si{\nauticalmile} \\
-            Непер                     & \verb|\neper| & \si{\neper}        \\
-            \bottomrule
-        \end{tabular}
-    \end{threeparttable}
-\end{table}
-
-\begin{table}
-    \small
-    \centering
-    \begin{threeparttable}% выравнивание подписи по границам таблицы
-        \caption{Приставки СИ}\label{tab:unit:prefix}
-        \begin{tabular}{llcc|llcc}
-            \toprule
-            Приставка & Команда                  & Символ      & Степень &
-            Приставка & Команда                  & Символ      & Степень   \\
-            \midrule
-            Иокто     & \verb|\yocto|  & \si{\yocto} & -24     &
-            Дека      & \verb|\deca|  & \si{\deca}  & 1         \\
-            Зепто     & \verb|\zepto|  & \si{\zepto} & -21     &
-            Гекто     & \verb|\hecto|  & \si{\hecto} & 2         \\
-            Атто      & \verb|\atto|  & \si{\atto}  & -18     &
-            Кило      & \verb|\kilo|  & \si{\kilo}  & 3         \\
-            Фемто     & \verb|\femto|  & \si{\femto} & -15     &
-            Мега      & \verb|\mega|  & \si{\mega}  & 6         \\
-            Пико      & \verb|\pico|  & \si{\pico}  & -12     &
-            Гига      & \verb|\giga|  & \si{\giga}  & 9         \\
-            Нано      & \verb|\nano|  & \si{\nano}  & -9      &
-            Терра     & \verb|\tera|  & \si{\tera}  & 12        \\
-            Микро     & \verb|\micro|  & \si{\micro} & -6      &
-            Пета      & \verb|\peta|  & \si{\peta}  & 15        \\
-            Милли     & \verb|\milli|  & \si{\milli} & -3      &
-            Екса      & \verb|\exa|  & \si{\exa}   & 18        \\
-            Санти     & \verb|\centi|  & \si{\centi} & -2      &
-            Зетта     & \verb|\zetta|  & \si{\zetta} & 21        \\
-            Деци      & \verb|\deci| & \si{\deci}  & -1      &
-            Иотта     & \verb|\yotta| & \si{\yotta} & 24        \\
-            \bottomrule
-        \end{tabular}
-    \end{threeparttable}
-\end{table}
-
-\subsection{Заголовки с формулами: \texorpdfstring{\(a^2 + b^2 = c^2\)}{%
-        a\texttwosuperior\ + b\texttwosuperior\ = c\texttwosuperior},
-    \texorpdfstring{\(\left\vert\textrm{{Im}}\Sigma\left(
-            \protect\varepsilon\right)\right\vert\approx const\)}{|ImΣ (ε)| ≈ const},
-    \texorpdfstring{\(\sigma_{xx}^{(1)}\)}{σ\_\{xx\}\textasciicircum\{(1)\}}
-}\label{subsec:with_math}
-
-Пакет \texttt{hyperref} берёт текст для закладок в pdf-файле из~аргументов
-команд типа \verb|\section|, которые могут содержать математические формулы,
-а~также изменения цвета текста или шрифта, которые не отображаются в~закладках.
-Чтобы использование формул в заголовках не вызывало в~логе компиляции появление
-предупреждений типа <<\texttt{Token not allowed in~a~PDF string
-    (Unicode):(hyperref) removing...}>>, следует использовать конструкцию
-\verb|\texorpdfstring{}{}|, где в~первых фигурных скобках указывается
-формула, а~во~вторых "--- запись формулы для закладок.
-
-\section{Рецензирование текста}\label{sec:markup}
-
-В шаблоне для диссертации и автореферата заданы команды рецензирования.
-Они видны при компиляции шаблона в режиме черновика или при установке
-соответствующей настройки (\verb+showmarkup+) в~файле \verb+common/setup.tex+.
-
-Команда \verb+\todo+ отмечает текст красным цветом.
-\todo{Например, так.}
-
-Команда \verb+\note+ позволяет выбрать цвет текста.
-\note{Чёрный, } \note[red]{красный, } \note[green]{зелёный, }
-\note[blue]{синий.} \note[orange]{Обратите внимание на ширину и расстановку
-    формирующихся пробелов, в~результате приведённой записи (зависит также
-    от~применяемого компилятора).}
-
-Окружение \verb+commentbox+ также позволяет выбрать цвет.
-
-\begin{commentbox}[red]
-    Красный текст.
-
-    Несколько параграфов красного текста.
-\end{commentbox}
-
-\begin{commentbox}[blue]
-    Синяя формула.
-
-    \begin{equation}
-        \alpha + \beta = \gamma
-    \end{equation}
-\end{commentbox}
-
-\verb+commentbox+ позволяет закомментировать участок кода в~режиме чистовика.
-Чтобы убрать кусок кода для всех режимов, можно использовать окружение
-\verb+comment+.
-
-\begin{comment}
-Этот текст всегда скрыт.
-\end{comment}
-
-\section{Работа со списком сокращений и~условных обозначений}\label{sec:acronyms}
-
-С помощью пакета \texttt{nomencl} можно создавать удобный сортированный список
-сокращений и условных обозначений во время написания текста. Вызов
-\verb+\nomenclature+ добавляет нужный символ или сокращение с~описанием
-в~список, который затем печатается вызовом \verb+\printnomenclature+
-в~соответствующем разделе.
-Для того, чтобы эти операции прошли, потребуется дополнительный вызов
-\verb+makeindex -s nomencl.ist -o %.nls %.nlo+ в~командной строке, где вместо
-\verb+%+ следует подставить имя главного файла проекта (\verb+dissertation+
-для этого шаблона).
-Затем потребуется один или два дополнительных вызова компилятора проекта.
 \begin{equation}
-    \omega = c k,
+	\sum_{k=1}^{N}{\delta(\mathbf{r}-\mathbf{r}_k)\cdot\varepsilon_k\cdot s_k(t)}, \quad \delta\left(\mathbf{r}-\mathbf{r}_k\right)=
+	\begin{cases}
+		1,\ \mathbf{r}=\mathbf{r}_k, \\
+		0,\ \mathbf{r}\neq\mathbf{r}_k,
+	\end{cases} \nonumber
+\end{equation}	
+
+где $\varepsilon_k$ "--- постоянная яркость молекулы красителя, а $s_k(t)$ "--- зависящая от времени функция.
+
+Считая, что позиции молекул флуорофора не меняются со временем, а ядро размытия изображения $U(\mathbf{r})$ одинаково для всех участков изображения, интенсивность $F(\mathbf{r},t)$ в позиции $r$ в момент времени $t$ можно записать в следующем виде:
+
+\begin{equation}
+	F\left(\mathbf{r},t\right)=\sum_{k=1}^{N}{U(\mathbf{r}-\mathbf{r}_k)\cdot\varepsilon_k\cdot s_k(t)}. \nonumber
 \end{equation}
-где \( \omega \) "--- частота света, \( c \) "--- скорость света, \( k \) "---
-модуль волнового вектора.
-\nomenclature{\(\omega\)}{частота света\nomrefeq}
-\nomenclature{\(c\)}{скорость света\nomrefpage}
-\nomenclature{\(k\)}{модуль волнового вектора\nomrefeqpage}
-Использование
-\begin{verbatim}
-\nomenclature{\(\omega\)}{частота света\nomrefeq}
-\nomenclature{\(c\)}{скорость света\nomrefpage}
-\nomenclature{\(k\)}{модуль волнового вектора\nomrefeqpage}
-\end{verbatim}
-после уравнения добавит в список условных обозначений три записи.
-Ссылки \verb+\nomrefeq+ на последнее уравнение, \verb+\nomrefpage+ "--- на
-страницу, \verb+\nomrefeqpage+ "--- сразу на~последнее уравнение и~на~страницу,
-можно опускать и~не~использовать.
 
-Группировкой и сортировкой пунктов в списке можно управлять с~помощью указания
-дополнительных аргументов к команде \verb+nomenclature+.
-Например, при вызове
-\begin{verbatim}
-\nomenclature[03]{\( \hbar \)}{постоянная Планка}
-\nomenclature[01]{\( G \)}{гравитационная постоянная}
-\end{verbatim}
-\( G \) будет стоять в списке выше, чем \( \hbar \).
-Для корректных вертикальных отступов между строками в описании лучше
-не~использовать многострочные формулы в~списке обозначений.
+Изменение яркости также может быть выражено как флуктуации с нулевым математическим ожиданием:
 
-\nomenclature{%
-    \( \begin{rcases}
-        a_n \\
-        b_n
-    \end{rcases} \)%
-}{коэффициенты разложения Ми в дальнем поле соответствующие электрическим и
-    магнитным мультиполям}
-\nomenclature[a\( e \)]{\( {\boldsymbol{\hat{\mathrm e}}} \)}{единичный вектор}
-\nomenclature{\( E_0 \)}{амплитуда падающего поля}
-\nomenclature{\( j \)}{тип функции Бесселя}
-\nomenclature{\( k \)}{волновой вектор падающей волны}
-\nomenclature{%
-    \( \begin{rcases}
-        a_n \\
-        b_n
-    \end{rcases} \)%
-}{и снова коэффициенты разложения Ми в дальнем поле соответствующие
-    электрическим и магнитным мультиполям. Добавлено много текста, так что
-    описание группы условных обозначений значительно превысило высоту этой
-    группы...}
-\nomenclature{\( L \)}{общее число слоёв}
-\nomenclature{\( l \)}{номер слоя внутри стратифицированной сферы}
-\nomenclature{\( \lambda \)}{длина волны электромагнитного излучения в вакууме}
-\nomenclature{\( n \)}{порядок мультиполя}
-\nomenclature{%
-    \( \begin{rcases}
-        {\mathbf{N}}_{e1n}^{(j)} & {\mathbf{N}}_{o1n}^{(j)} \\
-        {\mathbf{M}_{o1n}^{(j)}} & {\mathbf{M}_{e1n}^{(j)}}
-    \end{rcases} \)%
-}{сферические векторные гармоники}
-\nomenclature{\( \mu \)}{магнитная проницаемость в вакууме}
-\nomenclature{\( r, \theta, \phi \)}{полярные координаты}
-\nomenclature{\( \omega \)}{частота падающей волны}
+\begin{align*}
+	\delta F\left(\mathbf{r},t\right) &= F\left(\mathbf{r},t\right)-\langle F\left(\mathbf{r},t\right) \rangle_t = \\
+	&= \sum_{k} {U\left(\mathbf{r} - \mathbf{r}_k\right) \cdot \varepsilon_k \cdot \left[ s_k\left(t\right)- \langle s_k\left(t\right) \rangle_t \right]} = \\
+	&= \sum_{k} {U\left(\mathbf{r} - \mathbf{r}_k\right) \cdot \varepsilon_k \cdot \delta s_k \left(t\right)},
+\end{align*}
 
-С помощью \verb+nomenclature+ можно включать в~список сокращения,
-не~используя их~в~тексте.
-% запись сокращения в список происходит командой \nomenclature,
-% а не употреблением самого сокращения
-\nomenclature{FEM}{finite element method, метод конечных элементов}
-\nomenclature{FIT}{finite integration technique, метод конечных интегралов}
-\nomenclature{FMM}{fast multipole method, быстрый метод многополюсника}
-\nomenclature{FVTD}{finite volume time-domain, метод конечных объёмов
-    во~временной области}
-\nomenclature{MLFMA}{multilevel fast multipole algorithm, многоуровневый
-    быстрый алгоритм многополюсника}
-\nomenclature{BEM}{boundary element method, метод граничных элементов}
-\nomenclature{CST MWS}{Computer Simulation Technology Microwave Studio
-    программа для компьютерного моделирования уравнен Максвелла}
-\nomenclature{DDA}{discrete dipole approximation, приближение дискретиных
-    диполей}
-\nomenclature{FDFD}{finite difference frequency domain, метод конечных
-    разностей в~частотной области}
-\nomenclature{FDTD}{finite difference time domain, метод конечных разностей
-    во~временной области}
-\nomenclature{MoM}{method of moments, метод моментов}
-\nomenclature{MSTM}{multiple sphere T-Matrix, метод Т-матриц для множества
-    сфер}
-\nomenclature{PSTD}{pseudospectral time domain method, псевдоспектральный метод
-    во~временной области}
-\nomenclature{TLM}{transmission line matrix method, метод матриц линий передач}
+где $\langle \ldots \rangle_t$ означает усреднение по времени. Тогда автокорреляционная функция второго порядка задаётся формулой
+
+\begin{align*}
+	G_2\left(\mathbf{r},\tau\right) &= \langle \delta F\left(\mathbf{r},t+\tau\right)\cdot\delta F\left(\mathbf{r},t\right) \rangle_t = \\
+	&= \sum_{j,k} {U\left(\mathbf{r}-\mathbf{r}_j\right)U\left(\mathbf{r}-\mathbf{r}_k\right)\cdot\varepsilon_j\cdot\varepsilon_k\cdot \langle \delta s_j\left(t+\tau\right)\delta s_k\left(t\right) \rangle_t} = \\
+	&= \sum_{k} {U^2\left(\mathbf{r}-\mathbf{r}_k\right)\cdot\varepsilon_k^2\cdot \langle \delta s_k\left(t+\tau\right)\delta s_k\left(t\right) \rangle_t}.
+\end{align*}
+
+Последний переход обусловлен независимостью сигналов от разных молекул красителя, перекрёстные члены суммы принимают нулевые значения для всех $\mathbf{r}$ и $t$.
+
+Как видно из последнего уравнения, автокорреляционная функция второго порядка имеет вид свёртки некоторого резкого изображения, задаваемого формулой $\sum_{k=1}^{N} {\delta(\mathbf{r}-\mathbf{r}_k)\cdot\varepsilon_k^2\cdot \langle \delta s_k\left(t+\tau\right)\delta s_k\left(t\right) \rangle_t}$, с квадратом исходного ядра размытия. Благодаря тому, что полная ширина на полувысоте (FWHM) возведённого в степень $\alpha>1$ ядра меньше, чем у исходного ядра, результат работы алгоритма SOFI обладает более высокой резкостью, чем необработанное изображение, а также позволяет достичь лучшего результата при дальнейшей деконволюции изображения из-за усиленных высоких частот в спектре изображения. В частности, в случае гауссовского размытия квадрат ядра размытия в $\sqrt{2}$ раз уже самого ядра.
+
+Для порядков выше второго используется не автоколлеряционная функция, а полуинварианты соответствующих порядков, так как в противном случае перекрёстные члены в сумме остаются.
+
+Хотя теоретического ограничения на степень повышения резкости нет, на практике используются полуинварианты порядков не выше четвёртого из-за роста влияния шума на результат с ростом порядка полуинварианта. А поскольку результат преобразования содержит не яркость молекул, а значения, зависящие от колебания яркости, которые могут быть в том числе равными нулю или меньше него, то только полуинвариант второго порядка (дисперсия яркости) даёт наиболее устойчивый результат с минимальной потерей данных и деталей изображения. Это и обусловило выбор второго порядка SOFI для проведения сравнения методов.
+
+При замене полуинвариантов на смешанные полуинварианты алгоритм SOFI $n$"~го порядка, помимо повышения резкости, обеспечивает и повышение разрешения в $n$ раз. В этом случае в преобразовании участвует несколько соседних пикселей изображения. В частности, для второго порядка получаем следующее выражение:
+
+\begin{align*}
+	&{XC}_2\left(\mathbf{r}_1,\mathbf{r}_2,\tau_1,\tau_2\right) = \\
+	&= \sum_{i=1}^{N} {U\left(\mathbf{r}_1-\mathbf{r}_i\right)U\left(\mathbf{r}_2-\mathbf{r}_i\right)\cdot\varepsilon_k^2\cdot \langle \delta s_i\left(t+\tau_1\right)\delta s_i\left(t+\tau_2\right) \rangle_t} = \\
+	&= U\left(\frac{\mathbf{r}_1-\mathbf{r}_2}{\sqrt2}\right) \sum_{i=1}^{N} {U^2\left(\frac{\mathbf{r}_1+\mathbf{r}_2}{2}-\mathbf{r}_i\right)\cdot\varepsilon_i^2\cdot \langle \delta s_i\left(t+\tau_1\right)\delta s_i\left(t+\tau_2\right) \rangle_t}.
+\end{align*}
+
+Отсюда видно, что:
+
+\begin{enumerate}
+	\item Позиция результирующего пикселя лежит между двумя пикселя, участвующими в преобразовании.
+	\item Результирующий пиксель имеет дополнительный множитель $U\left(\frac{\mathbf{r}_1-\mathbf{r}_2}{\sqrt2}\right)$, поэтому необходимо произвести перевзвешивание результирующего изображения для приведения уровня яркости разных групп пикселей к одному. При неизвестном ядре размытия это можно сделать, например, нормировав яркости пикселей каждой группы на среднее отклонение или математическое ожидание их яркостей.
+\end{enumerate}
+
+Для более высоких порядков формула приобретает вид:	
+
+\begin{equation*}
+	\begin{multlined}
+		{XC}_n\left(\mathbf{r}_1,{\ldots,\mathbf{r}}_n,\tau_1,{\ldots,\tau}_n \right) = \\
+		= \prod_{j<l}^{n}{U\left(\frac{\mathbf{r}_j-\mathbf{r}_l}{\sqrt n}\right)} \cdot \sum_{i=1}^{N}{U^n\left(\frac{\sum_{k}^{n}\mathbf{r}_k}{n}-\mathbf{r}_i \right)\cdot\varepsilon_i^n\cdot w_i(\tau_1,\ldots,\tau_n)},
+	\end{multlined}
+\end{equation*}
+
+где $w_i$ "--- смешанный полуинвариант функций $s_i(t)$ порядка $n$.
+
+\subsection{Метод повышения разрешения MUSICAL}
+
+Метод повышения разрешения и резкости изображений MUSICAL (Multiple signal classification algorithm for super-resolution fluorescence microscopy)~\cite{agarwal2016multiple} основан на методе разделения нескольких сигналов MUSIC~\cite{schmidt1986multiple}.
+
+В рамках этого метода интенсивность $n$"~го пикселя $k$"~го кадра ($1\le k\le K$, где $K$ "--- общее число изображений в обрабатываемой серии) задаётся формулой
+
+\begin{equation}
+	I_k\left({\vec{r}}_n\right)=\int_{y_n-\frac{w}{2}}^{y_n+\frac{w}{2}}\int_{x_n-\frac{w}{2}}^{x_n+\frac{w}{2}}\sum_{m=1}^{M}{G\left({\vec{r}}_n,{\vec{r}}_m^{\,\prime}\right)\ s_m\left(k\right)\ dx\ dy}\approx\sum_{m=1}^{M}{w^{2\ }G\left({\vec{r}}_n,{\vec{r}}_m^{\,\prime}\right){\ s}_m\left(k\right)}, \nonumber
+\end{equation}	
+
+где ${\vec{r}}_n=(x_n,y_n)$ "--- позиция $n$"~го пикселя в плоскости изображения, $w$ "--- длина его стороны, ${\vec{r}}_m^{\,\prime}$ "--- позиция $m$"~го флуорофора в плоскости образца, $s_m\left(k\right)\geq0$ "--- суммарное излучение от $m$"~го флуорофора за время выдержки $k$"~го кадра (при этом $\exists k: {s}_m\left(k\right)>0$), а $G\left(\vec{r},{\vec{r}}^{\,\prime}\right)\ \geq\ 0$ "--- функция, определяющая ядро размытия, отображающая интенсивность излучения из точки ${\vec{r}}^{\,\prime}$ в плоскости образца в точку $\vec{r}$ в плоскости изображения.
+
+Таким образом, интенсивности всех пикселей $k$"~го изображения могут быть записаны в виде матричного уравнения: ${\overline{I}}_k=\mathbf{G}{\overline{s}}_k$, где
+
+\begin{align*}
+	&{\overline{I}}_k=\left[
+		\begin{array}{cccc}
+			I_k\left({\vec{r}}_1\right) & I_k\left({\vec{r}}_2\right) & \cdots & I_k\left({\vec{r}}_N\right)
+		\end{array}
+	\right]^\mathrm{T}, \\
+	&\mathbf{G}=w^2 \left[
+		\begin{array}{cccc}
+			\overline{G}\left({\vec{r}}_1^{\,\prime}\right) & \overline{G}\left({\vec{r}}_2^{\,\prime}\right) & \cdots & \overline{G}\left({\vec{r}}_M^{\,\prime}\right)
+		\end{array}
+	\right], \\
+	&\overline{G}\left({\vec{r}}^{\,\prime}\right)=\left[
+		\begin{array}{cccc}
+			G\left({\vec{r}}_1,{\vec{r}}^{\,\prime}\right) & G\left({\vec{r}}_2,{\vec{r}}^{\,\prime}\right) & \cdots & G\left({\vec{r}}_N,{\vec{r}}^{\,\prime}\right)
+		\end{array}
+	\right]^\mathrm{T}, \\
+	&{\overline{s}}_k=\left[
+		\begin{array}{cccc}
+			s_1\left(k\right) & s_2\left(k\right) & \cdots & s_M\left(k\right)
+		\end{array}
+	\right]^\mathrm{T}.
+\end{align*}
+
+Полный набор изображений может быть записан матрицей
+
+\begin{equation*}
+	\mathbf{I} = \left[
+		\begin{array}{cccc}
+			{\overline{I}}_1 & {\overline{I}}_2 & \cdots & {\overline{I}}_K
+		\end{array}
+	\right] = \mathbf{G} \cdot \left[
+		\begin{array}{cccc}
+			{\overline{s}}_1 & {\overline{s}}_2 & \cdots & {\overline{s}}_K
+		\end{array}
+	\right].
+\end{equation*}
+
+Отсюда видно, что каждый столбец матрицы $\mathbf{I}$ "--- это линейная комбинация столбцов матрицы $\mathbf{G}$, а пространство столбцов матрицы $\mathbf{I}$, являющееся линейной оболочкой полученных изображений, определяется пространством столбцов матрицы $\mathbf{I}$. Одновременно с этим пространство столбцов матрицы $\mathbf{I}$ задаётся левыми сингулярными векторами из сингулярного разложения этой матрицы, у которых соответствующие им сингулярные числа не равны нулю: $\left\{{\overline{u}}_{\sigma_i\neq0}\right\}$.
+
+Если $\mathbf{I}$ "--- матрица неполного ранга, то существует линейное пространство векторов $\left\{{\overline{u}}_{\sigma_i=0}\right\}$, ортогональное пространству столбцов матрицы $\mathbf{I}$, и выполняется $\overline{G}\left({\vec{r}}_m^{\,\prime}\right) \cdot {\overline{u}}_{\sigma_i=0}=0$ для всех $m$. При условии, что флуорофоры мигают независимо, одному элементу из $\left\{\overline{G}\left({\vec{r}}_m^{\,\prime}\right); m=\overline{1;M}\right\}$ соответствует один и только один элемент из $\left\{{\overline{u}}_{\sigma_i\neq0}\right\}$. Поэтому вектора $\overline{G}\left({\vec{r}}^{\,\prime}\right)$ для позиций ${\vec{r}}^{\,\prime} \notin \left\{{\vec{r}}_m^{\,\prime},\ m=\overline{1;M}\right\}$ имеют ненулевую проекцию на линейное пространство векторов $\left\{{\overline{u}}_{\sigma_i=0}\right\}$.
+
+В случае полного ранга выбирается некоторый порог $\sigma_0$ и за базис пространства столбцов матрицы берётся множество $\left\{{\overline{u}}_{\sigma_i\geq\sigma_0}\right\}$, а за базис ортогонального сигналу пространства "--- $\left\{{\overline{u}}_{\sigma_i<\sigma_0}\right\}$. Обусловлен такой подход тем, что разные вектора ${\overline{u}}_{\sigma_i}$ соответствуют разным структурным деталям изображений, соответствующие им $\sigma_i^2$ определяют энергию (силу) этих векторов, а вектора с низкой энергией могут быть сильно искажены шумом и не могут считаться надёжными при восстановлении изображения высокого разрешения.
+
+Для проверки условий принадлежности вектора $\overline{G}\left({\vec{r}}^{\,\prime}\right)$ к $\left\{\overline{G}\left({\vec{r}}_m^{\,\prime}\right); m=\overline{1;M}\right\}$ в MUSICAL используется индикаторная функция с параметром $\alpha$, отвечающим за контраст:
+
+\begin{align*}
+	&f\left({\vec{r}}_{test}^{\,\prime}\right) = \left(\frac{d_{PR}\left({\vec{r}}_{test}^{\,\prime}\right)} {d_{PN}\left({\vec{r}}_{test}^{\,\prime}\right)}\right)^\alpha, \\
+	&d_{PR}\left({\vec{r}}_{test}^{\,\prime}\right) = \sqrt{\sum_{\sigma_i\geq\sigma_0}{\lVert \overline{G}\left({\vec{r}}_{test}^{\,\prime}\right)\cdot{\overline{u}}_i \rVert}^2}, \\
+	&d_{PN}\left({\vec{r}}_{test}^{\,\prime}\right) = \sqrt{\sum_{\sigma_i<\sigma_0}{\lVert \overline{G}\left({\vec{r}}_{test}^{\,\prime}\right)\cdot{\overline{u}}_i \rVert}^2}.
+\end{align*}
+
+Значения такой индикаторной функции будут тем больше, чем ближе точка ${\vec{r}}^{\,\prime}$ к позиции одного из $m$ флуорофоров. Посчитав значения этой функции для всех пикселей изображения высокого разрешения, можно построить своего рода карту расположения молекул флуорофоров.
+
+Для ускорения работы алгоритма и устойчивости определения базиса пространства сигнала алгоритм MUSICAL обрабатывает изображение не целиком, а с использованием скользящего окна, сопоставимого по размеру с диаметром ядра размытия, с дальнейшим усреднением значений индикаторной функции в областях перекрытия окон.
+
+\subsection{Байесовский метод локализационной микроскопии 3B}
+
+Ещё одним рассмотренным методом является метод локализации молекул флуорофора с помощью байесовского алгоритма~\cite{cox2012bayesian}. Метод использует скрытую марковскую модель для представления переходов флуорофора между тремя состояниями (излучает, не излучает, разрушен) и делает вывод о присутствии флуорофора в точке на основе отношения вероятности его присутствия (событие $\mathcal{F}$) в этой точке при учёте наблюдаемых данных $D$ к вероятности его отсутствия (событие $\mathcal{N}$) при тех же данных: $\frac{p\left(\mathcal{F}\middle| D\right)}{p\left(\mathcal{N}\right|D)} = \frac{p\left(D\middle|\mathcal{F}\right)p\left(\mathcal{F}\right)} {p\left(D\middle|\mathcal{N}\right)p\left(\mathcal{N}\right)}$. Так как $p\left(\mathcal{F}\right)$ и $p\left(\mathcal{N}\right)$ постоянные, то оценить нужно только вероятности $p\left(D\middle|\mathcal{F}\right)$ и $p\left(D\middle|\mathcal{N}\right)$. Последнее "--- это вероятность наблюдения данных при учёте наличия в них только шума известной модели (например, шума с нормальным распределением). Первая величина вычисляется следующим образом:
+
+\begin{equation*}
+	p\left(D\middle|\mathcal{F}\right)=\int_{a\in\mathbb{R}^4}\int_{b\in\mathbb{Z}_3^N}{p\left(D,a,b\middle|\mathcal{F}\right)\ db\ da},
+\end{equation*}
+
+где $a$ "--- 4 параметра каждого флуорофора (координаты в плоскости изображения, яркость и размер), а $b$ "--- набор состояний флуорофора в каждом кадре. Вероятность $p\left(D,a,b\middle|\mathcal{F}\right)$ равна произведению вероятности получения наблюдаемых данных при условии наличия флуорофора в рассматриваемой точке на априорные вероятности параметров $a$ и $b$. Априорные вероятности координат флуорофоров заданы равномерным распределением на рассматриваемой области изображения и нулём вне этой области. Размер изображения флуорофора имеет логнормальное априорное распределение с параметрами $\sigma=0.1$ и $\mu$ таким, чтобы мода распределения имела значение полной ширины на полувысоте (FWHM) заданного ядра размытия. Априорное распределение яркости флуорофора тоже логнормальное, с параметрами $\sigma=3$ и $\mu=1$. Априорное распределение состояния флуорофора в первом кадре задано так, чтобы вероятности состояний <<излучает>> и <<не излучает>> были равновероятными, а событие <<флуорофор разрушен>> "--- невозможным. Дальнейшие априорные вероятности вычисляются с использованием скрытой марковской модели в зависимости от предыдущих состояний.
+
+С учётом всех $M$ молекул флуорофора уравнение приобретает вид:
+
+\begin{equation*}
+	p\left(D\middle|\mathcal{F}_M\right)=\int_{a\in\mathbb{R}^{4 \cdot M}}\int_{b\in\mathbb{Z}_3^{N \cdot M}}{p\left(D,a,b\middle|\mathcal{F}_M\right)\ db\ da}.
+\end{equation*}	
+
+Из-за большого объёма вычислений в случае многих молекул интегрирование по $a$ проводится приближённо методом Лапласа, а интеграл по $b$ оценивается с помощью генерации выборки $\left\{b_i\right\}_{i=1\ }^n$ методом Монте"=Карло по схеме марковской цепи и вычисления суммы
+
+\begin{equation*}
+	p\left(D\middle|\mathcal{F}_M\right)=\int_{a\in\mathbb{R}^{4 \cdot M}}\int_{b\in\mathbb{Z}_3^{N \cdot M}}{p\left(D,a,b\middle|\mathcal{F}_M\right)\ db\ da} \approx \frac{1}{n}\int_{a\in\mathbb{R}^{4 \cdot M}}{\sum_{i=1}^{n}{p\left(D,a,b_i\middle|\mathcal{F}_M\right)}}.
+\end{equation*}
+
+\section{Итерационный регуляризирующий алгоритм}
+%TODO
+В ходе выполнения данной работы был разработан и реализован алгоритм повышения резкости и разрешения изображений на основе байесовского подхода с использованием регуляризации [32].
+
+В основе метода лежит предположение о том, что интенсивности пикселей резкого изображения можно рассмотреть как независимые случайные величины, а серию резких изображений "--- как результат серии наблюдений этих случайных величин. Влияние дифракции представлено свёрткой резкого изображения с одним и тем же ядром для всех пикселей и всех кадров, а полученные размытые снимки содержат высокочастотный шум.
+
+В рамках предлагаемого подхода размытые зашумлённые изображения серии рассматриваются как наблюдаемые переменные, соответствующие им исходные резкие изображения "--- как скрытые, а среднее значение и дисперсия интенсивности каждого пикселя исходной серии изображений "--- как неизвестные параметры распределения интенсивности этого пикселя. Затем эти параметры распределений интенсивностей пикселей вычисляются с помощью байесовского алгоритма. При этом полученные дисперсии интенсивностей можно трактовать как высококонтрастную карту объектов с изменяющейся яркостью, на которой подсвеченный мигающим флуорофором образец будет присутствовать, а постоянный фон "--- нет.
+
+На вход алгоритма поступает набор размытых и зашумлённых изображений $Y=\left\{y^t\right\}_{t=1}^T$, $y^t\in\mathbb{R}^l$, ему соответствует неизвестный набор резких изображений высокого разрешения $X=\left\{x^t\right\}_{t=1}^T$, $x^t\in\mathbb{R}^n$. Благодаря природе шума, его можно моделировать случайным процессом с нормальным распределением~\cite{gadsden1965some}. Поэтому в данном пункте считается, что $y^t \sim N({Kx}^t,\Theta^{-1})$, где $K\in\mathbb{R}^{n \times n}$ "--- оператор свёртки и понижения разрешения (имеет вид матрицы Тёплица с элементами ядра размытия на диагоналях, умноженной на матрицу понижения разрешения слева), а $\Theta\in\mathbb{R}^{n \times n}$ "--- обратная ковариационная матрица шума, диагональная из-за попиксельной независимости шума. Вследствие малости размера молекулы флуорофора предполагается, что в каждом пикселе изображения может находиться достаточно много независимо мигающих молекул, чтобы можно было приблизить распределение суммарной яркости точки нормальным распределением: $x^t \sim N(\mu,\Lambda^{-1})$, где $\mu\in\mathbb{R}^n$ "--- средняя по всем кадрам яркость объекта, а $\Lambda\in\mathbb{R}^{n \times n}$ "--- обратная ковариационная матрица мерцания объекта.
+
+Финальным результатом работы алгоритма являются математическое ожидание $\mu$ и диагональ математического ожидания $\Lambda$, поэлементный квадратный корень которой является стандартными отклонениями яркостей точек резких изображений. 
+
+Рассматривая $X$, $\mu$ и $\Lambda$ как скрытые переменные, можно записать их совместное апостериорное распределение:
+
+\begin{equation*}
+	p\left(X,\mu,\Lambda\middle|Y,\Theta\right)=\frac{p\left(Y\middle|X,\Theta\right)p\left(X\middle|\mu,\Lambda\right)p\left(\mu\right)p\left(\Lambda\right)}{p\left(Y\middle|\Theta\right)}.
+\end{equation*}
+
+Для нахождения распределений $\mu$ и $\Lambda$ и матрицы $\Theta$ максимизируется правдоподобие набора кадров с помощью аппроксимации среднего поля и EM алгоритма~\cite{bishop2006pattern}:
+
+\begin{equation*}
+	p\left(Y\middle|\Theta\right) \rightarrow \max_{p \left( X, \mu, \Lambda \middle| Y,\Theta \right),\Theta}.
+\end{equation*}
+
+Апостериорное совместное распределение аппроксимируется факторизуемой плотностью вероятности:
+
+\begin{equation*}
+	p\left(X,\mu,\Lambda\middle|Y,\Theta\right)\approx q\left(X,\mu,\Lambda\right)=\prod_{t=1}^{T}{q_{1,t}\left(x^t\right)\cdot\ q_2\left(\mu\right)\cdot q_3\left(\Lambda\right)}.
+\end{equation*}
+
+С целью регуляризации на искомые величины $\mu$ и $\Lambda$ накладываются следующие ограничения:
+
+\begin{align*}
+	&\mu \sim N\left(m_0,\ \eta_0^{-1}I_n\right), \\
+	&\Lambda \sim W\left(W_0,\nu_0\right)=\frac{1}{C}\left|\Lambda\right|^\frac{\nu_0-n-1}{2}\exp{\left(-\frac{1}{2}tr\left[W_0^{-1}\Lambda\right]\right)},
+\end{align*}
+
+где $W(\cdots)$ "--- распределение Уишарта, $I_n$ "--- единичная матрица, $m_0\in\mathbb{R}^n$, $\eta_0,\ \nu_0\in\mathbb{R}$ и $W_0\in\mathbb{R}^{n \times n}$ "--- параметры регуляризации, а $C$ "--- нормировочная константа. Вид ограничения на $\Lambda$ выбран в том числе с тем, чтобы получить аналитическое решение одного из шагов алгоритма максимизации. В качестве множителей $q_{1,t}\left(x^t\right)$ и $q_2\left(\mu\right)$ используются нормальные распределения, а для $q_3\left(\Lambda\right)$ "--- распределение Уишарта.
+
+При таких условиях совместная плотность вероятности наблюдаемых размытых и зашумлённых изображений и соответствующих им скрытых резких изображений с учётом регуляризации имеет следующий вид:
+
+\begin{align*}
+	p\left(Y,X,\mu,\Lambda \middle| \Theta\right) &= \prod_{t=1}^{T} \left( \frac{\lvert\Theta\rvert \cdot \lvert\Lambda\rvert}{{2\pi}^{n}} \right)^\frac{1}{2} \exp\left(
+	\begin{aligned}
+		&-\frac{1}{2}\left(y^t-Kx^t\right)^T\Theta\left(y^t-Kx^t\right) - \\
+		&-\frac{1}{2}\left(x^t-\mu\right)^T\Lambda\left(x^t-\mu\right)
+	\end{aligned}
+	\right) \cdot \\
+	&\cdot \left(\frac{\eta_0}{2\pi}\right)^\frac{n}{2} \exp \left(-\frac{1}{2}\left(\mu-m_0\right)^T\eta_0I_n\left(\mu-m_0\right)\right) \cdot \\
+	&\cdot \frac{1}{C}\lvert\Lambda\rvert^\frac{\nu_0-n-1}{2}\exp{\left(-\frac{1}{2}tr\left[W_0^{-1}\Lambda\right]\right)}.
+\end{align*}
+
+Тогда параметры распределений $X$, $\mu$ и $\Lambda$ и матрица $\Theta$ находятся итерационным алгоритмом, который на каждом шаге пересчитывает их по очереди в соответствии с уравнениями:
+
+\begin{align*}
+	\log{q_{1,k}\left(x^k\right)}=\mathbb{E}_{\left\{x^{t \backslash k}\right\},\mu,\Lambda}\log{p\left(Y,X,\mu,\Lambda\mid\Theta\right)}+C_{1,k}, \\
+	\log{q_2\left(\mu\right)}=\mathbb{E}_{\left\{x^t\right\},\Lambda}\log{p\left(Y,X,\mu,\Lambda\mid\Theta\right)}+C_2, \\
+	\log{q_3\left(\Lambda\right)}=\mathbb{E}_{\left\{x^t\right\},\mu}\log{p\left(Y,X,\mu,\Lambda\mid\Theta\right)}+C_3, \\
+	\Theta=\arg{\max_\Theta{\mathbb{E}_{\left\{x^t\right\},\mu,\Lambda}\log{p\left(Y,X,\mu,\Lambda\mid\Theta\right)}}},
+\end{align*}
+
+где $\left\{C_{1,k}\right\}_{k=1}^T$, $C_2$ и $C_3$ "--- нормировочные константы.
+
+В итоге обновление параметров происходит следующим образом:
+
+\begin{align*}
+	&q_{1,t}\left(x^t\right):\ \Sigma_{x^t}=\left(K^T\Theta K+\mathbb{E}\Lambda\right)^{-1},\ \mathbb{E}x^t=\Sigma_{x^t}\left(K^T\Theta y^t+\mathbb{E}\Lambda\cdot\mathbb{E}\mu\right); \\
+	&q_2\left(\mu\right):\ \Sigma_\mu=\left(T\cdot\mathbb{E}\Lambda+\eta_0I_n\right)^{-1},\ \mathbb{E}\mu=\Sigma_\mu\left(\mathbb{E}\Lambda\cdot\sum_{t=1}^{T}{\mathbb{E}x^t}+\eta_0I_nm_0\right); \\
+	&q_3\left(\Lambda\right):\ W\left(W^\prime,v^\prime\right),\ v^\prime=v_0+T \\
+	&W^\prime=\left(W_0^{-1}+\sum_{t=1}^{T}\left[
+	\begin{aligned}
+		&\Sigma_{x^t} + \mathbb{E}x^t\left(\mathbb{E}x^t\right)^T - \mathbb{E}x^t\left(\mathbb{E}\mu\right)^T - \\
+		&- \mathbb{E}\mu\left(\mathbb{E}x^t\right)^T + \Sigma_\mu + \mathbb{E}\mu\left(\mathbb{E}\mu\right)^T
+	\end{aligned}
+	\right]\right)^{-1}, \\
+	&\mathbb{E}\Lambda=v^\prime W^\prime; \\
+%	&\Theta=\left(\frac{1}{T}\sum_{t=1}^{T}\left[\left(K\mathbb{E}x^t-y^t\right)\left(K\mathbb{E}x^t-y^t\right)^T+K\Sigma_{x^t}K^T\right]\right)^{-1}. \\
+	&\Theta_{ii}=\left(\frac{1}{T}\sum_{t=1}^{T}\left[\left(\left(K\mathbb{E}x^t - y^t\right)_i\right)^2 + \left(K\Sigma_{x^t}K^T\right)_{ii}\right]\right)^{-1}.
+\end{align*}
+
+Для ускорения работы алгоритма он может быть запущен без учёта повышения разрешения, а затем полученный результат после простой интерполяции может быть использован в качестве начального приближения при нахождении изображения повышенного разрешения.
+
+%\section{RED - поменять название}
+%TODO 
+
+\section{Эксперименты и результаты}
+
+В ходе выполнения данной работы методы SOFI, MUSICAL и разработанный в процессе выполнения работы алгоритм были реализованы на языке программирования Python. Для получения результатов обработки изображений алгоритмом 3B было использовано программное обеспечение от авторов этого метода (доступно по ссылке \url{http://www.coxphysics.com/3b}).
+
+Была проведена оптимизация алгоритма SOFI для уменьшения влияния пространственно некоррелированного шума на интенсивность пикселей изображения высокого разрешения в позициях исходных пикселей путём замены вычисления автокорреляции исходных пикселей на вычисление усреднённых смешанных полуинвариантов сигналов с пикселей вокруг исходных.
+
+Было проведено тестирования рассматриваемых алгоритмов на искусственных и реальных данных, примеры результатов обработки представлены на Рис.~\ref{fig:blinking-results-simulation}"~и"~\ref{fig:blinking-results-real}. Разработанный метод был ускорен с использованием технологии Nvidia~CUDA, тестирование остальных методов проводилось на ЭВМ с четырёхядерным процессором Intel~Core~i5~6500. Среднее время работы на представленных данных составило для XC"~SOFI порядка 2 вместе с дальнейшей деконволюцией "--- 2 секунды, для 3B "--- 45 минут, для разработанного байесовского метода "--- 2 минуты, для MUSICAL "--- 1 минута.
+
+\begin{figure}[ht]
+	\centerfloat{
+		\hfill
+		\subcaptionbox[List-of-Figures entry]{Карта молекул флуорофора}{%
+			\includegraphics[width=0.3\textwidth]{blinking-1-7a.png}}
+		\hfill
+		\subcaptionbox{Пример одного изображения серии}{%
+			\includegraphics[width=0.3\textwidth]{blinking-1-7b.png}}
+		\hfill
+		\subcaptionbox{Усреднённое по времени изображение\label{fig:blinking-results-avg-sim}}{%
+			\includegraphics[width=0.3\textwidth]{blinking-1-7c.png}}
+		\hfill
+		\vfill
+		\hfill
+		\subcaptionbox{Деконволюция Рис.~\ref{fig:blinking-results-avg-sim} методом Люси"=Ричардсона~\cite{richardson1972bayesian}}{%
+			\includegraphics[width=0.3\textwidth]{blinking-1-7d.png}}
+		\hfill
+		\subcaptionbox{XC"~SOFI порядка~2\label{fig:blinking-results-sofi-2-sim}}{%
+			\includegraphics[width=0.3\textwidth]{blinking-1-7e.png}}
+		\hfill
+		\subcaptionbox{Деконволюция Рис.~\ref{fig:blinking-results-sofi-2-sim} методом Люси"=Ричардсона}{%
+			\includegraphics[width=0.3\textwidth]{blinking-1-7f.png}}
+		\hfill
+		\vfill
+		\hfill
+		\subcaptionbox{XC"~SOFI порядка~3\label{fig:blinking-results-sofi-3}}{%
+			\includegraphics[width=0.3\textwidth]{blinking-1-7g.png}}
+		\hfill
+		\subcaptionbox{Деконволюция Рис.~\ref{fig:blinking-results-sofi-3} методом Люси"=Ричардсона}{%
+			\includegraphics[width=0.3\textwidth]{blinking-1-7h.png}}
+		\hfill
+		\subcaptionbox{3B}{%
+			\includegraphics[width=0.3\textwidth]{blinking-1-7i.png}}
+		\hfill
+		\vfill
+		\hfill
+		\subcaptionbox{Разработанный метод, средняя яркость}{%
+			\includegraphics[width=0.3\textwidth]{blinking-1-7j.png}}
+		\hfill
+		\subcaptionbox{Разработанный метод, стандартные отклонения яркости}{%
+			\includegraphics[width=0.3\textwidth]{blinking-1-7k.png}}
+		\hfill
+		\subcaptionbox{MUSICAL}{%
+			\includegraphics[width=0.3\textwidth]{blinking-1-7l.png}}
+		\hfill
+		\vfill
+	}
+	\caption{Примеры изображений из искусственного набора данных и результаты работы рассмотренных алгоритмов}
+	\label{fig:blinking-results-simulation}
+\end{figure}
+
+\begin{figure}[ht]
+	\centerfloat{
+		\hfill
+		\subcaptionbox[List-of-Figures entry]{Один кадр серии}[0.3\textwidth]{%
+			\includegraphics[width=0.2\textwidth]{blinking-1-8a.png}}
+		\hfill
+		\subcaptionbox{Усреднённое по времени изображение\label{fig:blinking-results-avg-real}}[0.3\textwidth]{%
+			\includegraphics[width=0.2\textwidth]{blinking-1-8b.png}}
+		\hfill
+		\subcaptionbox{Деконволюция Рис.~\ref{fig:blinking-results-avg-real} методом Люси"=Ричардсона}[0.3\textwidth]{%
+			\includegraphics[width=0.2\textwidth]{blinking-1-8c.png}}
+		\hfill
+		\vfill
+		\hfill
+		\subcaptionbox{XC"~SOFI порядка~2\label{fig:blinking-results-sofi-2-real}}[0.3\textwidth]{%
+			\includegraphics[width=0.2\textwidth]{blinking-1-8d.png}}
+		\hfill
+		\subcaptionbox{Деконволюция Рис.~\ref{fig:blinking-results-sofi-2-real} методом Люси-Ричардсона}[0.3\textwidth]{%
+			\includegraphics[width=0.2\textwidth]{blinking-1-8e.png}}
+		\hfill
+		\subcaptionbox{XC"~SOFI порядка~3}[0.3\textwidth]{%
+			\includegraphics[width=0.2\textwidth]{blinking-1-8f.png}}
+		\hfill
+		\vfill
+		\hfill
+		\subcaptionbox{3B}[0.3\textwidth]{%
+			\includegraphics[width=0.2\textwidth]{blinking-1-8g.png}}
+		\hfill
+		\subcaptionbox{Разработанный метод, стандартные отклонения яркости}[0.3\textwidth]{%
+			\includegraphics[width=0.2\textwidth]{blinking-1-8h.png}}
+		\hfill
+		\subcaptionbox{MUSICAL}[0.3\textwidth]{%
+			\includegraphics[width=0.2\textwidth]{blinking-1-8i.png}}
+		\hfill
+		\vfill
+	}
+	\caption{Примеры изображений из реального набора данных и результаты работы рассмотренных алгоритмов}
+	\label{fig:blinking-results-real}
+\end{figure}
+
+Сравнение показало следующее:
+
+\begin{enumerate}
+	\item результаты работы алгоритма 3B страдают от потери данных, получаемый результат не окупает долгое время работы алгоритма;
+	\item XC"~SOFI является самым быстрым из рассмотренных, однако варианты метода порядков выше второго страдают от потери информации, а также сильно зависят от используемого алгоритма деконволюции;
+	\item разработанный метод повышения качества изображений хорошо восстанавливает детали, однако с ростом степени повышения разрешения объём вычислений растёт крайне быстро, что ограничивает возможности по повышению разрешения;
+	\item алгоритм MUSICAL также достаточно хорошо восстанавливает детали, а при повышении разрешения время работы растёт медленно, что делает его интересным для более подробного рассмотрения.
+\end{enumerate}
+
+\section{Выводы}
+
+Разработанный в рамках данной работы алгоритм показал качество работы, сопоставимое с результатами работы алгоритма MUSICAL. Его преимуществом является слегка большая резкость клеточных структур, а также имеющие физический смысл восстановленные яркость и дисперсия яркости точек. Недостатком является высокая вычислительная сложность, не позволяющая использовать алгоритм в текущем виде для увеличения разрешения в 4 и более раз за приемлемое время.
+
+Алгоритм MUSICAL предоставляет лучшие возможности по увеличению разрешения, однако результат содержит лишь некий показатель наличия молекул флуорофора, поэтому область применения ограничивается локализационной микроскопией.
+
+SOFI имеет наивысшую скорость работы, однако недостаточное повышение разрешения и резкости делают нецелесообразным его использование при низком увеличении микроскопа.
+
+%На основании вышесказанного можно сделать вывод, что в случае достаточно высокого увеличения объектива и жёстких требований по времени оптимальным алгоритмом из рассмотренных для микроскопа Zeiss~LSM~880 является SOFI. Потенциал MUSICAL должен раскрыться в случае получения снимком низкого разрешения, что позволит производить съёмку образцов быстрее при небольшой потере качества изображений. Разработанный же метод может предоставить более резкое изображение в случае изначально среднего или высокого увеличения объектива, что тоже может представлять интерес для исследователей.
 
 \FloatBarrier
