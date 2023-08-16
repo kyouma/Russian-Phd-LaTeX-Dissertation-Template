@@ -81,7 +81,7 @@
 % Выравнивание по центру подписи, состоящей из одной строки:
 % true  --- выравнивать
 % false --- не выравнивать
-\newcommand{\tabsinglecenter}{false}
+\newcommand{\tabsinglecenter}{true}
 
 % Выравнивание подписи таблиц:
 % justified   --- выравнивать как обычный текст («по ширине»)
@@ -90,10 +90,10 @@
 % centerfirst --- выравнивать по центру только первую строку (не рекомендуется)
 % raggedleft  --- выравнивать по правому краю
 % raggedright --- выравнивать по левому краю
-\newcommand{\tabjust}{justified}
+\newcommand{\tabjust}{centering}
 
 % Разделитель записи «Таблица #» и названия таблицы
-\newcommand{\tablabelsep}{~\cyrdash\ }
+\newcommand{\tablabelsep}{:~}
 
 %%% Настройки форматирования таблицы `split`
 
@@ -101,22 +101,22 @@
 % \centering   --- выравнивать по центру
 % \raggedleft  --- выравнивать по правому краю
 % \raggedright --- выравнивать по левому краю
-\newcommand{\splitformatlabel}{\raggedleft}
+\newcommand{\splitformatlabel}{\centering}
 
 % Положение текста подписи:
 % \centering   --- выравнивать по центру
 % \raggedleft  --- выравнивать по правому краю
 % \raggedright --- выравнивать по левому краю
-\newcommand{\splitformattext}{\raggedright}
+\newcommand{\splitformattext}{\centering}
 
 %% Подпись рисунков %%
 %Разделитель записи «Рисунок #» и названия рисунка
-\newcommand{\figlabelsep}{~\cyrdash\ }  % (ГОСТ 2.105, 4.3.1)
+\newcommand{\figlabelsep}{:~}  % (ГОСТ 2.105, 4.3.1)
                                         % "--- здесь не работает
 
 %%% Цвета гиперссылок %%%
 % Latex color definitions: http://latexcolor.com/
-\definecolor{linkcolor}{rgb}{0.9,0,0}
+\definecolor{linkcolor}{rgb}{0,0,0}
 \definecolor{citecolor}{rgb}{0,0.6,0}
 \definecolor{urlcolor}{rgb}{0,0,1}
 %\definecolor{linkcolor}{rgb}{0,0,0} %black
