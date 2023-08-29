@@ -1,0 +1,109 @@
+% Титульный лист (ГОСТ Р 7.0.11-2001, 5.1)
+\thispagestyle{empty}
+\begin{center}
+\thesisOrganization
+\end{center}
+%
+\vspace{0pt plus4fill} %число перед fill = кратность относительно некоторого расстояния fill, кусками которого заполнены пустые места
+\IfFileExists{images/logo.pdf}{
+  \begin{minipage}[b]{0.5\linewidth}
+    \begin{flushleft}
+      \includegraphics[height=3.5cm]{logo}
+    \end{flushleft}
+  \end{minipage}%
+  \begin{minipage}[b]{0.5\linewidth}
+    \begin{flushright}
+      На правах рукописи\\
+%      \textsl {УДК \thesisUdk}
+    \end{flushright}
+  \end{minipage}
+}{
+\begin{flushright}
+%На правах рукописи
+
+%\textsl {УДК \thesisUdk}
+\end{flushright}
+}
+%
+\vspace{0pt plus2fill} %число перед fill = кратность относительно некоторого расстояния fill, кусками которого заполнены пустые места
+\begin{center}
+{\large \thesisAuthor}
+\end{center}
+%
+\vspace{0pt plus1fill} %число перед fill = кратность относительно некоторого расстояния fill, кусками которого заполнены пустые места
+\begin{center}
+Научный доклад\\
+об основных результатах научно-квалификационной работы на тему:\\
+\textbf {\large %\MakeUppercase
+<<\thesisTitle>>}
+
+\vspace{0pt plus2fill} %число перед fill = кратность относительно некоторого расстояния fill, кусками которого заполнены пустые места
+{%\small
+Специальность \thesisSpecialtyNumber\ "---
+
+<<\thesisSpecialtyTitle>>
+}
+
+\ifdefined\thesisSpecialtyTwoNumber
+{%\small
+Специальность \thesisSpecialtyTwoNumber\ "---
+
+<<\thesisSpecialtyTwoTitle>>
+}
+\fi
+
+\vspace{0pt plus2fill} %число перед fill = кратность относительно некоторого расстояния fill, кусками которого заполнены пустые места
+%Диссертация на соискание учёной степени
+%Научно"~квалификационная работа
+%Научный доклад
+
+%\thesisDegree
+\end{center}
+%
+\vspace{0pt plus4fill} %число перед fill = кратность относительно некоторого расстояния fill, кусками которого заполнены пустые места
+\begin{flushright}
+\ifdefined\supervisorTwoFio
+Научные руководители:
+
+\supervisorRegalia
+
+\ifdefined\supervisorDead
+\framebox{\supervisorFioShort}
+\else
+\supervisorFioShort
+\fi
+
+\supervisorTwoRegalia
+
+\ifdefined\supervisorTwoDead
+\framebox{\supervisorTwoFio}
+\else
+\supervisorTwoFio
+\fi
+\else
+Научный руководитель:
+
+\supervisorRegaliaShort
+
+\ifdefined\supervisorDead
+\framebox{\supervisorFioShort}
+\else
+\supervisorFioShort
+\fi
+\fi
+
+\vspace{0pt plus4fill}
+Рецензенты:\\
+кандидат физико-математических наук\\
+В.А.~Исаков,\\
+кандидат физико-математических наук\\
+А.С.~Конушин\\
+
+\end{flushright}
+%
+\vspace{0pt plus4fill} %число перед fill = кратность относительно некоторого расстояния fill, кусками которого заполнены пустые места
+%{\centering\thesisCity,  \thesisYear\par}
+\begin{center}
+	{\thesisCity, \thesisYear}
+\end{center}
+\clearpage
