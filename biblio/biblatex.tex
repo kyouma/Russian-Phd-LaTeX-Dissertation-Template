@@ -16,10 +16,12 @@ defernumbers=true,% нумерация проставляется после д�
 sortcites=true,% сортировать номера затекстовых ссылок при цитировании (если в квадратных скобках несколько ссылок, то отображаться будут отсортированно, а не абы как)
 doi=false,% Показывать или нет ссылки на DOI
 isbn=false,% Показывать или нет ISBN, ISSN, ISRN
+maxbibnames=99,
+minbibnames=99,
 ]{biblatex}[2016/09/17]
-\ltx@iffilelater{biblatex-gost.def}{2017/05/03}%
-{\toggletrue{bbx:gostbibliography}%
-\renewcommand*{\revsdnamepunct}{\addcomma}}{}
+%\ltx@iffilelater{biblatex-gost.def}{2017/05/03}%
+%{\toggletrue{bbx:gostbibliography}%
+%\renewcommand*{\revsdnamepunct}{\addcomma}}{}
 }{%Черновик
 \usepackage[%
 backend=biber,% движок
@@ -627,6 +629,24 @@ sorting=none,% настройка сортировки списка литера
     \printbibliography[heading=pubsubgroup, section=0, keyword=biblioauthorprogram,title=\bibtitleauthorprogram,resetnumbers=false]% Программы для ЭВМ
     \printbibliography[heading=pubsubgroup, section=0, keyword=biblioauthorconf,   title=\bibtitleauthorconf,resetnumbers=false]% Тезисы конференций
     \printbibliography[heading=pubsubgroup, section=0, keyword=biblioauthorother,  title=\bibtitleauthorother,resetnumbers=false]% Прочие работы автора
+}
+
+% Команда для вывода моих публикаций на новой странице (и внутри ещё один перевод страницы вручную через \clearpage после части публикаций, т.к. система отрывала подзаголовок от абзаца)
+\newcommand*{\insertbiblioauthorgroupedd}{
+	\chapter*{\bibtitleauthor}
+	\addcontentsline{toc}{chapter}{\bibtitleauthor}
+	\ifsynopsis
+	\printbibliography[heading=pubsubgroup, section=3, keyword=biblioauthorvak,    title=\bibtitleauthorvak,resetnumbers=true] % Работы автора из списка ВАК (сброс нумерации)
+	\else
+	\printbibliography[heading=pubsubgroup, section=3, keyword=biblioauthorvak,    title=\bibtitleauthorvak,resetnumbers=false] % Работы автора из списка ВАК (сквозная нумерация)
+	\fi
+	\printbibliography[heading=pubsubgroup, section=3, keyword=biblioauthorwos,    title=\bibtitleauthorwos,resetnumbers=false]% Работы автора, индексируемые Web of Science
+	\printbibliography[heading=pubsubgroup, section=3, keyword=biblioauthorscopus, title=\bibtitleauthorscopus,resetnumbers=false]% Работы автора, индексируемые Scopus
+	\clearpage
+	\printbibliography[heading=pubsubgroup, section=3, keyword=biblioauthorpatent, title=\bibtitleauthorpatent,resetnumbers=false]% Патенты
+	\printbibliography[heading=pubsubgroup, section=3, keyword=biblioauthorprogram,title=\bibtitleauthorprogram,resetnumbers=false]% Программы для ЭВМ
+	\printbibliography[heading=pubsubgroup, section=3, keyword=biblioauthorconf,   title=\bibtitleauthorconf,resetnumbers=false]% Тезисы конференций
+	\printbibliography[heading=pubsubgroup, section=3, keyword=biblioauthorother,  title=\bibtitleauthorother,resetnumbers=false]% Прочие работы автора
 }
 
 \newcommand*{\insertbiblioexternal}{
