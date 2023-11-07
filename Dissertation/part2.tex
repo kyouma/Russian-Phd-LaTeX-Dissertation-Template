@@ -259,10 +259,10 @@
 
 \subsection{Интерполяция на равномерную сетку}
 
-Интерполяция с деформированной сетки на исходную равномерную осуществляется следующим образом (см.~Рис.~\ref{fig:warping-interpolation} и~\cite{krylov2014gridwarping}). Значение интенсивности пикселя обработанного изображения $I_w(P)$ вычисляется как взвешенная сумма значений интенсивностей пикселей смещённой сетки в окрестности пикселя $P$ $N(P) = \left\{ Q: \lvert Q - P \rvert \leq \rho\ \right\}$:
+Интерполяция с деформированной сетки на исходную равномерную осуществляется следующим образом (см.~Рис.~\ref{fig:warping-interpolation} и~\cite{krylov2014gridwarping}). Значение интенсивности пикселя обработанного изображения $I_w(P)$ вычисляется как взвешенная сумма значений интенсивностей пикселей смещённой сетки в окрестности пикселя $P$ $N\left(P\right) = \left\{ Q: \lvert Q - P \rvert \leq \rho\ \right\}$:
 
 \begin{equation*}
-	I_w(P)=\frac{\sum_{Q \in N(P)} \frac{1}{\lvert P - Q \rvert} I(Q)}{\sum_{Q \in N(P)} \frac{1}{\lvert P - Q \rvert}}.
+	I_w(P)=\frac{\sum_{Q \in N\left(P\right)} \frac{1}{\lvert P - Q \rvert} I(Q)}{\sum_{Q \in N\left(P\right)} \frac{1}{\lvert P - Q \rvert}}.
 \end{equation*}
 
 В рамках выполнения диссертационной работы значение $\rho$ было принято равным $1.5$.
