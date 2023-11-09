@@ -649,6 +649,22 @@ sorting=none,% настройка сортировки списка литера
 	\printbibliography[heading=pubsubgroup, section=3, keyword=biblioauthorother,  title=\bibtitleauthorother,resetnumbers=false]% Прочие работы автора
 }
 
+\newcommand*{\insertbiblioauthorgroupeddd}{
+	\chapter*{\bibtitleauthor}
+	\addcontentsline{toc}{chapter}{\bibtitleauthor}
+	\ifsynopsis
+	\printbibliography[heading=pubsubgroup, keyword=biblioauthorvak,    title=\bibtitleauthorvak,resetnumbers=true] % Работы автора из списка ВАК (сброс нумерации)
+	\else
+	\printbibliography[heading=pubsubgroup, keyword=biblioauthorvak,    title=\bibtitleauthorvak,resetnumbers=false] % Работы автора из списка ВАК (сквозная нумерация)
+	\fi
+	\printbibliography[heading=pubsubgroup, keyword=biblioauthorwos,    title=\bibtitleauthorwos,resetnumbers=false]% Работы автора, индексируемые Web of Science
+	\printbibliography[heading=pubsubgroup, keyword=biblioauthorscopus, title=\bibtitleauthorscopus,resetnumbers=false]% Работы автора, индексируемые Scopus
+	\printbibliography[heading=pubsubgroup, keyword=biblioauthorpatent, title=\bibtitleauthorpatent,resetnumbers=false]% Патенты
+	\printbibliography[heading=pubsubgroup, keyword=biblioauthorprogram,title=\bibtitleauthorprogram,resetnumbers=false]% Программы для ЭВМ
+	\printbibliography[heading=pubsubgroup, keyword=biblioauthorconf,   title=\bibtitleauthorconf,resetnumbers=false]% Тезисы конференций
+	\printbibliography[heading=pubsubgroup, keyword=biblioauthorother,  title=\bibtitleauthorother,resetnumbers=false]% Прочие работы автора
+}
+
 \newcommand*{\insertbiblioexternal}{
     \printbibliography[heading=pubgroup,    section=0, keyword=biblioexternal,     title=\bibtitlefull]
 }
