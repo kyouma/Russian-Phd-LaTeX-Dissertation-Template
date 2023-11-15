@@ -642,7 +642,8 @@ sorting=none,% настройка сортировки списка литера
 	\fi
 	\printbibliography[heading=pubsubgroup, section=3, keyword=biblioauthorwos,    title=\bibtitleauthorwos,resetnumbers=false]% Работы автора, индексируемые Web of Science
 	\printbibliography[heading=pubsubgroup, section=3, keyword=biblioauthorscopus, title=\bibtitleauthorscopus,resetnumbers=false]% Работы автора, индексируемые Scopus
-	\clearpage
+	% Это надо, если заголовок раздела отрывается от списка
+%	\clearpage
 	\printbibliography[heading=pubsubgroup, section=3, keyword=biblioauthorpatent, title=\bibtitleauthorpatent,resetnumbers=false]% Патенты
 	\printbibliography[heading=pubsubgroup, section=3, keyword=biblioauthorprogram,title=\bibtitleauthorprogram,resetnumbers=false]% Программы для ЭВМ
 	\printbibliography[heading=pubsubgroup, section=3, keyword=biblioauthorconf,   title=\bibtitleauthorconf,resetnumbers=false]% Тезисы конференций
